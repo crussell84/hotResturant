@@ -20,13 +20,13 @@ app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
 
-  var reservations = [];
+  var tables = [];
   var waitlist = [];
 
   // API Routes
 
-  app.get("/api/reservations", function(req, res) {
-    return res.json(reservations);
+  app.get("/api/tables", function(req, res) {
+    return res.json(tables);
   });
 
   app.get("/api/waitlist", function(req, res) {
