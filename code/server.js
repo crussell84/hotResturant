@@ -19,3 +19,16 @@ app.use(bodyParser.json());
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
+
+  var reservations = [];
+  var waitlist = [];
+
+  // API Routes
+
+  app.get("/api/reservations", function(req, res) {
+    return res.json(reservations);
+  });
+
+  app.get("/api/waitlist", function(req, res) {
+    return res.json(waitlist);
+  });
