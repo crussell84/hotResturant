@@ -67,44 +67,39 @@
     const RUN_QUERY = () => {
         //current url
         let cURL = window.location.origin;
-
         $.ajax({ url: cURL + "/api/tables", method: "GET" })
             .done((tableData) => {
                 //clears table data
                 $("#tableSection").empty();
                 $("#waitlistSection").empty();
-
                 for (i = 0; i < tableData.length; i++) {
                     let tableSection = $("<div>");
-
                     tableSection.addClass('well');
                     tableSection.attr('id', 'tableWell-' + i + 1)
                     $('#tableSection').append(tableSection);
-
                     let tableNumber = i + 1;
                     // Then display the remaining fields in the HTML (Section Name, Date, URL)
                     $("#tableWell-" + i + 1).append('<h2><button id="' + i + '" class="label label-danger clearReservation">X</button> <span class="label label-primary">' + tableNumber + "</span> " + tableData[i].name + "</h2>");
                 }
-
                 if (tableData.length > 4) {
                     WAIT_LIST_QUERY(tableData);
                 }
             });
-
-
         const WAIT_LIST_QUERY = (tableData) => {
             // Loop through and display each of the customers
-            for (i = 5; i < tableData.length; i++) {
-                // Create the HTML Well (Section) and Add the table content for each reserved table
-                let waitlistSection = $("<div>");
-                waitlistSection.addClass('well');
-                waitlistSection.attr('id', 'waitlistWell-' + i + 1)
-                $('#waitlistSection').append(waitlistSection);
-            }
+            let cURL = window.location.origin();
+            $.ajax({ url: cURL + "/api/waitlist", method: "GET" })
+                .done((tableData) => {
+                    for (i = 5; i < tableData.length; i++) {
+                        // Create the HTML Well (Section) and Add the table content for each reserved table
+                        let waitlistSection = $("<div>");
+                        waitlistSection.addClass('well');
+                        waitlistSection.attr('id', 'waitlistWell-' + i + 1)
+                        $('#waitlistSection').append(waitlistSection);
+                    }
+                });
         }
-
-
-        $(document).on('click', ".clearReservation",  () => {
+        $(document).on('click', ".clearReservation", () => {
             let idToDelete = $(this).attr("id");
             let killObject = { "id": idToDelete };
             let currentURL = window.location.origin;
@@ -113,7 +108,7 @@
                 url: currentURL + "/api/killreservation",
                 data: { "id": idToDelete }
             })
-                .done( (tables) => {
+                .done((tables) => {
                     $(this).remove();
                     console.log(tables);
                     RUN_QUERY();
@@ -124,12 +119,10 @@
             // Refresh the page after data is cleared
             location.reload();
         })
+    }
         // Run Queries!
         // ==========================================
         RUN_QUERY();
-
-
-
 
 </script>
 
