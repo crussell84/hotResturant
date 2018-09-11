@@ -68,7 +68,7 @@
         //current url
         let cURL = window.location.origin;
 
-        $.ajax({ url: cURL + "/api/tables", method: "POST" })
+        $.ajax({ url: cURL + "/api/tables", method: "GET" })
             .done((tableData) => {
                 //clears table data
                 $("#tableSection").empty();
