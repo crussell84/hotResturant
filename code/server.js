@@ -43,6 +43,19 @@ app.listen(PORT, function() {
     res.sendFile(path.join(__dirname, "tables.html"));
   });
 
-  app.get("/reservations", function(req, res) {
+  app.get("/reserve", function(req, res) {
     res.sendFile(path.join(__dirname, "reservations.html"));
   });
+
+  // take in customer from reserve form
+  app.post("/api/tables", function(req, res) {
+      var newCustomer = req.body;
+
+      if (tables.length < 5) {
+          res.send(true);
+          tables.push(newCustomer);
+      } else {
+          res.send(false);
+          waitlist.push(newCustomer);
+      }
+  })
